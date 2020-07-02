@@ -10,7 +10,31 @@ const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 const PokemonDetailContainer = styled.div`
 `;
 
-const PokemonDetail = () => {
+const renderTypes = ({ types }) => {
+  return types
+  ? types.map(pokemonType => {
+    return <TypeChip key={pokemonType.type.name} name={pokemonType.type.name} />
+  })
+  : null;
+}
+
+const PokemonDetail = ({ loading, pokemon, image }) => {
+  return (
+    <PokemonDetailContainer>
+      { loading && <span>loading ...</span>}
+      { !loading && pokemon && (
+          <PokemonCardContainer>
+            <PokemonImage src={image} />
+            <PokemonName>{pokemon.id}: {pokemon.name}</PokemonName>
+            { pokemon && pokemon.types ? renderTypes({ types: pokemon.types }) : null }
+          </PokemonCardContainer>
+        )
+      }
+    </PokemonDetailContainer>
+  );
+};
+
+const PokemonDetailWrapper = () => {
   const { id } = useParams();
   // TODO: validar que sea un numero correcto (intervalo de pokemons)
 
@@ -31,27 +55,12 @@ const PokemonDetail = () => {
       })
   }, [])
 
-  const renderTypes = () => {
-    return pokemon
-    ? pokemon.types.map(pokemonType => {
-      return <TypeChip key={pokemonType.type.name} name={pokemonType.type.name} />
-    })
-    : null;
-  }
-
   return (
-    <PokemonDetailContainer>
-      { loading && <span>loading ...</span>}
-      { !loading && pokemon && (
-          <PokemonCardContainer>
-            <PokemonImage src={pokemonImage} />
-            <PokemonName>{id}: {pokemon.name}</PokemonName>
-            { renderTypes() }
-          </PokemonCardContainer>
-        )
-      }
-    </PokemonDetailContainer>
+    <PokemonDetail loading={loading} pokemon={pokemon} image={pokemonImage} />
   )
 }
 
-export default PokemonDetail;
+export default PokemonDetailWrapper;
+export {
+  PokemonDetail,
+};
