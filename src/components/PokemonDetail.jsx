@@ -11,22 +11,25 @@ const PokemonDetailContainer = styled.div`
 `;
 
 const renderTypes = ({ types }) => {
-  return types
-  ? types.map(pokemonType => {
-    return <TypeChip key={pokemonType.type.name} name={pokemonType.type.name} />
-  })
-  : null;
+  return types.map(pokemonType => {
+    return (
+      <TypeChip
+        key={pokemonType.type.name}
+        name={pokemonType.type.name}
+      />
+    );
+  });
 }
 
 const PokemonDetail = ({ loading, pokemon, image }) => {
   return (
     <PokemonDetailContainer>
-      { loading && <span>loading ...</span>}
+      { loading && <span className="p-loader">loading ...</span>}
       { !loading && pokemon && (
           <PokemonCardContainer>
             <PokemonImage src={image} />
             <PokemonName>{pokemon.id}: {pokemon.name}</PokemonName>
-            { pokemon && pokemon.types ? renderTypes({ types: pokemon.types }) : null }
+            { pokemon && pokemon.types && renderTypes({ types: pokemon.types }) }
           </PokemonCardContainer>
         )
       }
