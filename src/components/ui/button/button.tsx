@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Button = (props) => {
+export interface IButton {
+  label: string;
+  onClick: () => void;
+};
+
+const Button = (props: IButton) => {
   const { label, onClick } = props;
 
   return (

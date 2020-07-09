@@ -5,9 +5,9 @@ import { action } from '@storybook/addon-actions';
 import Button from './button';
 import '../../../assets/main.css';
 
-storiesOf('Button', module)
+storiesOf('UI|Button', module)
   .addDecorator(withKnobs)
-  .add('Default', () => {
+  .add('Button', () => {
     return (
       <Button
         label={text('Etiqueta', "Click Me")}
